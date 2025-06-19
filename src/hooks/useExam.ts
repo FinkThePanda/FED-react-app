@@ -89,14 +89,6 @@ export const useExam = (examId: string | undefined) => {
     setPhase(ExamPhase.Examining);
   };
 
-  const handleStopExamination = () => {
-    if (!exam) return;
-    setIsTimerRunning(false);
-    const totalDuration = exam.examDurationMinutes * 60;
-    setTimeUsed(totalDuration - timer);
-    setPhase(ExamPhase.Grading);
-  };
-
   const resetForNextStudent = () => {
     if (!exam) return;
     setDrawnQuestion(null);
@@ -104,16 +96,26 @@ export const useExam = (examId: string | undefined) => {
     setGrade("");
     setTimer(exam.examDurationMinutes * 60);
     setPhase(ExamPhase.WaitingForStudent);
+    setTimeUsed(0);
   };
 
   const handleSaveAndNext = async () => {
     if (!exam || !drawnQuestion || grade === "") return;
+
+    let finalTimeUsed = timeUsed;
+    if (isTimerRunning) {
+      setIsTimerRunning(false);
+      const totalDuration = exam.examDurationMinutes * 60;
+      finalTimeUsed = totalDuration - timer;
+      setTimeUsed(finalTimeUsed);
+    }
+
     const currentStudent = exam.students[currentStudentIndex];
     try {
       await api.updateStudent({
         id: currentStudent.id,
         questionNo: drawnQuestion,
-        actualExamDuration: Math.round(timeUsed / 60),
+        actualExamDuration: Math.round(finalTimeUsed / 60),
         notes: notes,
         grade: grade,
       });
@@ -174,7 +176,6 @@ export const useExam = (examId: string | undefined) => {
       setGrade,
       handleDrawQuestion,
       handleStartExamination,
-      handleStopExamination,
       handleSaveAndNext,
       handleSkipStudent,
       handleFinishExam,

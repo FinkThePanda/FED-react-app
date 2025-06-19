@@ -58,6 +58,36 @@
       "numberOfQuestions": 10,
       "examDurationMinutes": 20,
       "startTime": "09:00",
+      "status": "finished"
+    },
+    {
+      "id": "92fc",
+      "examtermin": "Sommer 25",
+      "courseName": "TEST",
+      "date": "2025-05-31",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 20,
+      "startTime": "09:00",
+      "status": "finished"
+    },
+    {
+      "id": "6ea1",
+      "examtermin": "Sommer 26",
+      "courseName": "DOA",
+      "date": "2025-06-13",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 20,
+      "startTime": "09:00",
+      "status": "finished"
+    },
+    {
+      "id": "0d0a",
+      "examtermin": "Vinter 21",
+      "courseName": "DOA",
+      "date": "2025-05-28",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 20,
+      "startTime": "09:00",
       "status": "upcoming"
     }
   ],
@@ -209,7 +239,7 @@
       "studentNo": "1",
       "name": "Test 1",
       "examId": "cb05",
-      "order": 1,
+      "order": 2,
       "questionNo": 6,
       "actualExamDuration": 0,
       "notes": "rghuerbgjiernvjirebgjiorenbgjiedrfngijo¨\nujerbgjirfedngjioedrfngjioedrfnghiujoreng",
@@ -220,7 +250,73 @@
       "studentNo": "2",
       "name": "Test 2",
       "examId": "cb05",
-      "order": 0
+      "order": 0,
+      "questionNo": 5,
+      "actualExamDuration": 0,
+      "notes": "ebfjjibjifbadbh\nudbfernfgjbnrg\nuibfgnre",
+      "grade": "4"
+    },
+    {
+      "id": "0646",
+      "studentNo": "12345678",
+      "name": "Lasse Fink",
+      "examId": "cb05",
+      "order": 1,
+      "questionNo": 1,
+      "actualExamDuration": 0,
+      "notes": "fwfgerfwe\nefefefef",
+      "grade": "12"
+    },
+    {
+      "id": "d2f8",
+      "studentNo": "12356",
+      "name": "erere",
+      "examId": "92fc",
+      "order": 0,
+      "questionNo": 9,
+      "actualExamDuration": 0,
+      "notes": "asdn",
+      "grade": "12"
+    },
+    {
+      "id": "f100",
+      "studentNo": "1234567",
+      "name": "TETETET",
+      "examId": "6ea1",
+      "order": 0,
+      "questionNo": 10,
+      "actualExamDuration": 0,
+      "notes": "fefefefefefef",
+      "grade": "10"
+    },
+    {
+      "id": "56f6",
+      "studentNo": "123546",
+      "name": "erererer",
+      "examId": "6ea1",
+      "order": 1,
+      "questionNo": 1,
+      "actualExamDuration": 0,
+      "notes": "hjkl",
+      "grade": "12"
+    },
+    {
+      "id": "aa51",
+      "studentNo": "23456789",
+      "name": "qawsdfghj",
+      "examId": "0d0a",
+      "order": 0,
+      "questionNo": 9,
+      "actualExamDuration": 0,
+      "notes": "",
+      "grade": "00"
+    },
+    {
+      "id": "3923",
+      "studentNo": "2345670+",
+      "name": "sdfghjk",
+      "examId": "0d0a",
+      "order": 1
     }
   ]
 }

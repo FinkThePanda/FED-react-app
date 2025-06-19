@@ -28,7 +28,6 @@ const ExamPage = () => {
     setGrade,
     handleDrawQuestion,
     handleStartExamination,
-    handleStopExamination,
     handleSaveAndNext,
     handleSkipStudent,
     handleFinishExam,
@@ -98,26 +97,16 @@ const ExamPage = () => {
               </>
             )}
 
-            {phase === ExamPhase.Examining && (
-              <>
-                <div className={styles.timerDisplay}>{formatTime(timer)}</div>
-                <Button onClick={handleStopExamination} variant="danger">
-                  Slut Eksamination
-                </Button>
-                <textarea
-                  className={styles.notesArea}
-                  placeholder="Indtast noter her..."
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                />
-              </>
-            )}
-
-            {phase === ExamPhase.Grading && (
+            {(phase === ExamPhase.Examining || phase === ExamPhase.Grading) && (
               <>
                 <div
                   className={styles.timerDisplay}
-                  style={{ color: timer < 60 ? "red" : "black" }}
+                  style={{
+                    color:
+                      phase === ExamPhase.Grading && timer < 60
+                        ? "red"
+                        : "black",
+                  }}
                 >
                   {formatTime(timer)}
                 </div>
@@ -128,7 +117,9 @@ const ExamPage = () => {
                   onChange={(e) => setNotes(e.target.value)}
                 />
                 <div className={styles.gradingSection}>
-                  <p>Faktisk eksamenstid: {formatTime(timeUsed)}</p>
+                  {phase === ExamPhase.Grading && (
+                    <p>Faktisk eksamenstid: {formatTime(timeUsed)}</p>
+                  )}
                   <label htmlFor="grade">Vælg Karakter:</label>
                   <select
                     id="grade"

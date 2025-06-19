@@ -1,5 +1,11 @@
 /* src/pages/HistoryPage/HistoryPage.module.css */
 
+.historyPage {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* This allows the list to grow and scroll within the page */
+}
+
 .historyPage h1 {
   border-bottom: 2px solid #eee;
   padding-bottom: 1rem;

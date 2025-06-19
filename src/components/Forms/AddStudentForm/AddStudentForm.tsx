@@ -32,7 +32,7 @@ const AddStudentForm = ({
     setIsSubmitting(true);
     setError("");
     try {
-      const newStudentData = { ...formData, examId };
+      const newStudentData = { ...formData, examId, order: 0 };
       const createdStudent = await api.addStudent(newStudentData);
       onStudentAdded(createdStudent);
     } catch (err) {
