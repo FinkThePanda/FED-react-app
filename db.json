@@ -88,6 +88,55 @@
       "numberOfQuestions": 10,
       "examDurationMinutes": 20,
       "startTime": "09:00",
+      "status": "finished"
+    },
+    {
+      "id": "180b",
+      "examtermin": "Vinter 23",
+      "courseName": "LSLSLS",
+      "date": "2025-06-06",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 20,
+      "startTime": "09:00",
+      "status": "upcoming",
+      "students": [
+        {
+          "id": "d2be",
+          "studentNo": "2345689",
+          "name": "sdfghjklæ-",
+          "examId": "180b",
+          "order": 0
+        }
+      ]
+    },
+    {
+      "id": "7e0a",
+      "examtermin": "Vinter 24",
+      "courseName": "DOA",
+      "date": "2025-06-18",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 20,
+      "startTime": "09:00",
+      "status": "upcoming"
+    },
+    {
+      "id": "86bd",
+      "examtermin": "Sommer 25",
+      "courseName": "FED",
+      "date": "2025-05-31",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 20,
+      "startTime": "09:00",
+      "status": "upcoming"
+    },
+    {
+      "id": "78b3",
+      "examtermin": "Sommer 25",
+      "courseName": "SWT",
+      "date": "2025-06-28",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 20,
+      "startTime": "09:00",
       "status": "upcoming"
     }
   ],
@@ -305,7 +354,7 @@
       "studentNo": "23456789",
       "name": "qawsdfghj",
       "examId": "0d0a",
-      "order": 0,
+      "order": 1,
       "questionNo": 9,
       "actualExamDuration": 0,
       "notes": "",
@@ -316,7 +365,57 @@
       "studentNo": "2345670+",
       "name": "sdfghjk",
       "examId": "0d0a",
+      "order": 0,
+      "questionNo": 7,
+      "actualExamDuration": 1,
+      "notes": "Jeg har nu overført en test til min laptop, hvor jeg tester om al funktionalitet er god :)",
+      "grade": "12"
+    },
+    {
+      "id": "1857",
+      "studentNo": "124346678",
+      "name": "Laptop",
+      "examId": "0d0a",
+      "order": 2,
+      "questionNo": 6,
+      "actualExamDuration": 0,
+      "notes": ":)",
+      "grade": "10"
+    },
+    {
+      "id": "d997",
+      "studentNo": "234567",
+      "name": "LASse",
+      "examId": "180b",
+      "order": 3
+    },
+    {
+      "id": "c739",
+      "studentNo": "234567",
+      "name": "Simon",
+      "examId": "180b",
+      "order": 2
+    },
+    {
+      "id": "2745",
+      "studentNo": "234567",
+      "name": "Rene",
+      "examId": "180b",
+      "order": 0
+    },
+    {
+      "id": "5d2a",
+      "studentNo": "234567",
+      "name": "Magnus",
+      "examId": "180b",
       "order": 1
+    },
+    {
+      "id": "cd17",
+      "studentNo": "123",
+      "name": "Jeppe",
+      "examId": "180b",
+      "order": 4
     }
   ]
 }

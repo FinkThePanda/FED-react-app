@@ -21,6 +21,11 @@
   border-bottom: 1px solid #eee;
 }
 
+.studentInfo {
+  display: flex;
+  flex-direction: column;
+}
+
 .studentItem:last-child {
   border-bottom: none;
 }

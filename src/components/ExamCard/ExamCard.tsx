@@ -7,37 +7,63 @@ import styles from "./ExamCard.module.css";
 
 interface ExamCardProps {
   exam: Exam;
-  onAddStudentClick: (examId: string) => void;
-  onCardClick: (exam: Exam) => void; // Ny prop for at åbne studenter-modal
+  onManageStudentsClick: (exam: Exam) => void;
+  onCardClick: (exam: Exam) => void;
+  onEditClick: (exam: Exam) => void;
+  onDeleteClick: (examId: string) => void;
 }
 
-const ExamCard = ({ exam, onAddStudentClick, onCardClick }: ExamCardProps) => {
-  // Stopper event propagation, så klik på knapper ikke udløser onCardClick
+const ExamCard = ({
+  exam,
+  onManageStudentsClick,
+  onCardClick,
+  onEditClick,
+  onDeleteClick,
+}: ExamCardProps) => {
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
 
   return (
-    // Hele kortet har nu en onClick-handler
     <div className={styles.examCard} onClick={() => onCardClick(exam)}>
-      <div className={styles.cardContent}>
-        <h3>{exam.courseName}</h3>
-        <p>
-          <strong>Dato:</strong>{" "}
-          {new Date(exam.date).toLocaleDateString("da-DK")}
-        </p>
-        <p>
-          <strong>Tilmeldte studerende:</strong> {exam.students.length}
-        </p>
-      </div>
-      <div className={styles.cardActions} onClick={handleActionClick}>
-        <Link to={`/exam/${exam.id}`}>
-          <Button variant="primary" disabled={exam.students.length === 0}>
-            Start Eksamen
+      <div className={styles.cardTop}>
+        <div className={styles.cardContent}>
+          <h3>{exam.courseName}</h3>
+          <p>
+            <strong>Dato:</strong>{" "}
+            {new Date(exam.date).toLocaleDateString("da-DK")}
+          </p>
+          <p>
+            <strong>Tilmeldte studerende:</strong> {exam.students.length}
+          </p>
+        </div>
+        <div onClick={handleActionClick}>
+          <Button variant="secondary" onClick={() => onEditClick(exam)}>
+            Edit
           </Button>
-        </Link>
-        <Button variant="secondary" onClick={() => onAddStudentClick(exam.id)}>
-          Tilføj Studerende
+        </div>
+      </div>
+
+      <div className={styles.cardActions} onClick={handleActionClick}>
+        <div className={styles.topActions}>
+          <Link to={`/exam/${exam.id}`}>
+            <Button variant="primary" disabled={exam.students.length === 0}>
+              Start Eksamen
+            </Button>
+          </Link>
+          <Button
+            variant="secondary"
+            onClick={() => onManageStudentsClick(exam)}
+          >
+            Administrer Studerende
+          </Button>
+        </div>
+        <Button
+          variant="danger"
+          onClick={() => onDeleteClick(exam.id)}
+          className={styles.deleteButton}
+        >
+          Delete
         </Button>
       </div>
     </div>

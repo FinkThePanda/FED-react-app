@@ -1,19 +1,19 @@
 // src/pages/HomePage/HomePage.tsx
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import type { Exam, Student } from "../../types/types";
+import type { Exam } from "../../types/types";
 import * as api from "../../services/api";
 
 // Importer generiske UI-komponenter
-import Card from "../../components/ui/Card/Card";
 import List from "../../components/ui/List/List";
 import Button from "../../components/ui/Button/Button";
 import Modal from "../../components/ui/Modal/Modal";
 
 // Importer side-specifikke komponenter
 import CreateExamForm from "../../components/Forms/CreateExamForm/CreateExamForm";
+import EditExamForm from "../../components/Forms/EditExamForm/EditExamForm";
 import ManageStudentsModal from "../../components/ManageStudentsModal/ManageStudentsModal";
 import StudentListModal from "../../components/StudentListModal/StudentListModal";
+import ExamCard from "../../components/ExamCard/ExamCard";
 
 // Importer side-specifik styling
 import styles from "./HomePage.module.css";
@@ -26,6 +26,8 @@ const HomePage = () => {
 
   // States til at styre modaler
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [editingExam, setEditingExam] = useState<Exam | null>(null);
+  const [deletingExamId, setDeletingExamId] = useState<string | null>(null);
   const [managingStudentsFor, setManagingStudentsFor] = useState<Exam | null>(
     null
   );
@@ -52,6 +54,29 @@ const HomePage = () => {
     loadExams();
   }, []);
 
+  const handleExamUpdated = async (updatedExam: Exam) => {
+    try {
+      const returnedExam = await api.updateExam(updatedExam);
+      setExams((prev) =>
+        prev.map((ex) => (ex.id === returnedExam.id ? returnedExam : ex))
+      );
+      setEditingExam(null);
+    } catch (error) {
+      setError("Failed to update exam. Please try again later.");
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deletingExamId) return;
+    try {
+      await api.deleteExam(deletingExamId);
+      setExams((prev) => prev.filter((ex) => ex.id !== deletingExamId));
+      setDeletingExamId(null);
+    } catch (error) {
+      setError("Failed to delete exam. Please try again later.");
+    }
+  };
+
   // Funktion til at opdatere exams-state, når studerende er blevet ændret
   const handleStudentsUpdate = (updatedExam: Exam) => {
     setExams((prev) =>
@@ -66,6 +91,37 @@ const HomePage = () => {
 
   const handleCardClick = (exam: Exam) => {
     setViewingStudentsFor(exam);
+  };
+
+  const handleEditClick = (exam: Exam) => {
+    setEditingExam(exam);
+  };
+
+  const handleDeleteClick = (examId: string) => {
+    setDeletingExamId(examId);
+  };
+
+  const handleDeleteStudent = async (studentId: string) => {
+    if (!viewingStudentsFor) return;
+
+    try {
+      await api.deleteStudent(studentId);
+
+      const updatedStudents = viewingStudentsFor.students.filter(
+        (s) => s.id !== studentId
+      );
+
+      const updatedExam = { ...viewingStudentsFor, students: updatedStudents };
+
+      setViewingStudentsFor(updatedExam);
+      setExams((prevExams) =>
+        prevExams.map((exam) =>
+          exam.id === updatedExam.id ? updatedExam : exam
+        )
+      );
+    } catch (err) {
+      setError("Failed to delete student. Please try again later.");
+    }
   };
 
   if (isLoading) return <p>Henter eksamener...</p>;
@@ -89,6 +145,38 @@ const HomePage = () => {
         <CreateExamForm onExamCreated={handleExamCreated} />
       </Modal>
 
+      {editingExam && (
+        <Modal
+          isOpen={!!editingExam}
+          onClose={() => setEditingExam(null)}
+          title={`Edit Exam: ${editingExam.courseName}`}
+        >
+          <EditExamForm
+            exam={editingExam}
+            onUpdateExam={handleExamUpdated}
+            onClose={() => setEditingExam(null)}
+          />
+        </Modal>
+      )}
+
+      {deletingExamId && (
+        <Modal
+          isOpen={!!deletingExamId}
+          onClose={() => setDeletingExamId(null)}
+          title="Confirm Deletion"
+        >
+          <div>
+            <p>Are you sure you want to delete this exam?</p>
+            <Button onClick={handleConfirmDelete} variant="danger">
+              Delete
+            </Button>
+            <Button onClick={() => setDeletingExamId(null)} variant="secondary">
+              Cancel
+            </Button>
+          </div>
+        </Modal>
+      )}
+
       {managingStudentsFor && (
         <Modal
           isOpen={!!managingStudentsFor}
@@ -109,46 +197,29 @@ const HomePage = () => {
           onClose={() => setViewingStudentsFor(null)}
           title={`Studerende på: ${viewingStudentsFor.courseName}`}
         >
-          <StudentListModal students={viewingStudentsFor.students} />
+          <StudentListModal
+            students={viewingStudentsFor.students}
+            onDeleteStudent={handleDeleteStudent}
+          />
         </Modal>
       )}
 
-      <h2 className={styles.subHeader}>Kommende Eksamener</h2>
-
-      <List
-        items={exams}
-        emptyListMessage="Der er ingen kommende eksamener."
-        renderItem={(exam) => (
-          <Card key={exam.id} onClick={() => handleCardClick(exam)}>
-            <div className={styles.cardContent}>
-              <h3>{exam.courseName}</h3>
-              <p>
-                <strong>Dato:</strong>{" "}
-                {new Date(exam.date).toLocaleDateString("da-DK")}
-              </p>
-              <p>
-                <strong>Tilmeldte studerende:</strong> {exam.students.length}
-              </p>
-            </div>
-            <div
-              className={styles.cardActions}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Link to={`/exam/${exam.id}`}>
-                <Button variant="primary" disabled={exam.students.length === 0}>
-                  Start Eksamen
-                </Button>
-              </Link>
-              <Button
-                variant="secondary"
-                onClick={() => setManagingStudentsFor(exam)}
-              >
-                Administrer Studerende
-              </Button>
-            </div>
-          </Card>
-        )}
-      />
+      <section className={styles.examSection}>
+        <h2>Kommende Eksamener</h2>
+        <List
+          items={exams}
+          renderItem={(exam) => (
+            <ExamCard
+              key={exam.id}
+              exam={exam}
+              onCardClick={handleCardClick}
+              onEditClick={handleEditClick}
+              onDeleteClick={handleDeleteClick}
+              onManageStudentsClick={setManagingStudentsFor}
+            />
+          )}
+        />
+      </section>
     </div>
   );
 };

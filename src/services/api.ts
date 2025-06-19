@@ -8,10 +8,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
 // Datatyper til oprettelse af nye objekter, hvor ID'et endnu ikke eksisterer.
 type NewExamData = Omit<Exam, "id" | "students" | "status">;
-type NewStudentData = Omit<
-  Student,
-  "id" | "questionNo" | "actualExamDuration" | "notes" | "grade"
->;
+
 type StudentUpdateData = Pick<
   Student,
   "id" | "questionNo" | "actualExamDuration" | "notes" | "grade"
@@ -66,6 +63,52 @@ export const createExam = async (examData: NewExamData): Promise<Exam> => {
 };
 
 /**
+ * Opdaterer en eksisterende eksamen.
+ * @param exam - Hele eksamensobjektet, der skal opdateres.
+ * @returns Et promise, der resolver til det opdaterede Exam-objekt.
+ */
+export const updateExam = async (exam: Exam): Promise<Exam> => {
+  const response = await fetch(`${BASE_URL}/exams/${exam.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(exam),
+  });
+  if (!response.ok) {
+    throw new Error("Kunne ikke opdatere eksamen.");
+  }
+  return response.json();
+};
+
+/**
+ * Sletter en eksamen og alle tilknyttede studerende.
+ * @param examId - ID'et for den eksamen, der skal slettes.
+ */
+export const deleteExam = async (examId: string): Promise<void> => {
+  // 1. Hent alle studerende for den pågældende eksamen
+  const studentsResponse = await fetch(`${BASE_URL}/students?examId=${examId}`);
+  if (!studentsResponse.ok) {
+    throw new Error("Kunne ikke hente studerende for eksamen.");
+  }
+  const students: Student[] = await studentsResponse.json();
+
+  // 2. Slet hver studerende
+  const deleteStudentPromises = students.map((student) =>
+    fetch(`${BASE_URL}/students/${student.id}`, { method: "DELETE" })
+  );
+
+  await Promise.all(deleteStudentPromises);
+
+  // 3. Slet selve eksamenen
+  const deleteExamResponse = await fetch(`${BASE_URL}/exams/${examId}`, {
+    method: "DELETE",
+  });
+
+  if (!deleteExamResponse.ok) {
+    throw new Error("Kunne ikke slette eksamen.");
+  }
+};
+
+/**
  * Tilføjer en ny studerende til databasen.
  * @param studentData - Data for den nye studerende.
  * @returns Et promise, der resolver til det nyoprettede Student-objekt.
@@ -80,6 +123,19 @@ export const addStudent = async (
   });
   if (!response.ok) throw new Error("Kunne ikke tilføje studerende.");
   return response.json();
+};
+
+/**
+ * Sletter en studerende fra databasen.
+ * @param studentId - ID'et for den studerende, der skal slettes.
+ */
+export const deleteStudent = async (studentId: string): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/students/${studentId}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Kunne ikke slette studerende.");
+  }
 };
 
 /**
