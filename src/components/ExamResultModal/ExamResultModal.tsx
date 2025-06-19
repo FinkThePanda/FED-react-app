@@ -1,4 +1,3 @@
-// src/components/ExamResultModal/ExamResultModal.tsx
 import type { Exam } from "../../types/types";
 import styles from "./ExamResultModal.module.css";
 

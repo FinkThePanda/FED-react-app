@@ -1,5 +1,3 @@
-// src/App.tsx
-
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,6 +15,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import ExamPage from "./pages/ExamPage/ExamPage";
 import HistoryPage from "./pages/HistoryPage/HistoryPage";
 import PageTransition from "./components/animations/PageTransition";
+import { ExamProvider } from "./context/ExamContext";
 
 // Importerer global styling
 import "./App.css";
@@ -65,7 +64,9 @@ function App() {
   return (
     // Router-komponenten omslutter hele appen og muliggør client-side navigation.
     <Router>
-      <AppContent />
+      <ExamProvider>
+        <AppContent />
+      </ExamProvider>
     </Router>
   );
 }

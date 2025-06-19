@@ -1,5 +1,3 @@
-// src/components/Layout/Header/Header.tsx
-
 import { NavLink } from "react-router-dom";
 import styles from "./Header.module.css";
 

@@ -1,4 +1,3 @@
-// src/hooks/useExam.ts
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as api from "../services/api";

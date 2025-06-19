@@ -1,5 +1,3 @@
-// src/components/ui/Card.tsx
-
 /*
 Genanvendelig kort som bruges til at vise information i en boks
 i et grid

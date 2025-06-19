@@ -1,5 +1,3 @@
-// src/types.ts
-
 export interface Student {
   id: string;
   examId: string;

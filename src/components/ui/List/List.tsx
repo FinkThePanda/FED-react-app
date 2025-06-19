@@ -1,4 +1,3 @@
-// src/components/ui/List.tsx
 import React from "react";
 import styles from "./List.module.css";
 

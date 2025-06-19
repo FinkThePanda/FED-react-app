@@ -1,6 +1,6 @@
-// src/pages/HomePage/HomePage.tsx
-import { useState, useEffect } from "react";
+import { useReducer, useCallback } from "react";
 import type { Exam } from "../../types/types";
+import { useExams } from "../../context/ExamContext";
 import * as api from "../../services/api";
 
 // Importer generiske UI-komponenter
@@ -18,112 +18,117 @@ import ExamCard from "../../components/ExamCard/ExamCard";
 // Importer side-specifik styling
 import styles from "./HomePage.module.css";
 
+// 1. State and Actions for the local UI reducer
+interface HomePageState {
+  isCreateModalOpen: boolean;
+  editingExam: Exam | null;
+  deletingExamId: string | null;
+  managingStudentsFor: Exam | null;
+  viewingStudentsFor: Exam | null;
+}
+
+type Action =
+  | { type: "OPEN_CREATE_MODAL" }
+  | { type: "OPEN_EDIT_MODAL"; payload: Exam }
+  | { type: "OPEN_DELETE_MODAL"; payload: string }
+  | { type: "OPEN_MANAGE_STUDENTS_MODAL"; payload: Exam }
+  | { type: "OPEN_VIEW_STUDENTS_MODAL"; payload: Exam }
+  | { type: "UPDATE_VIEWING_STUDENTS"; payload: Exam } // For student deletion
+  | { type: "CLOSE_MODALS" };
+
+const initialState: HomePageState = {
+  isCreateModalOpen: false,
+  editingExam: null,
+  deletingExamId: null,
+  managingStudentsFor: null,
+  viewingStudentsFor: null,
+};
+
+const homePageReducer = (
+  state: HomePageState,
+  action: Action
+): HomePageState => {
+  switch (action.type) {
+    case "OPEN_CREATE_MODAL":
+      return { ...initialState, isCreateModalOpen: true };
+    case "OPEN_EDIT_MODAL":
+      return { ...initialState, editingExam: action.payload };
+    case "OPEN_DELETE_MODAL":
+      return { ...initialState, deletingExamId: action.payload };
+    case "OPEN_MANAGE_STUDENTS_MODAL":
+      return { ...initialState, managingStudentsFor: action.payload };
+    case "OPEN_VIEW_STUDENTS_MODAL":
+      return { ...initialState, viewingStudentsFor: action.payload };
+    case "UPDATE_VIEWING_STUDENTS":
+      return { ...state, viewingStudentsFor: action.payload };
+    case "CLOSE_MODALS":
+      return { ...initialState };
+    default:
+      return state;
+  }
+};
+
 const HomePage = () => {
-  // States
-  const [exams, setExams] = useState<Exam[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // 2. Get global state and actions from Context
+  const {
+    exams,
+    isLoading,
+    error,
+    createExam,
+    updateExam,
+    deleteExam,
+    updateStudentsInExam,
+  } = useExams();
 
-  // States til at styre modaler
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [editingExam, setEditingExam] = useState<Exam | null>(null);
-  const [deletingExamId, setDeletingExamId] = useState<string | null>(null);
-  const [managingStudentsFor, setManagingStudentsFor] = useState<Exam | null>(
-    null
-  );
-  const [viewingStudentsFor, setViewingStudentsFor] = useState<Exam | null>(
-    null
+  // 3. Manage local UI state with a reducer
+  const [uiState, dispatch] = useReducer(homePageReducer, initialState);
+
+  // 4. Define Handlers with useCallback
+  const handleCreateExam = useCallback(
+    async (examData: Omit<Exam, "id" | "students" | "status">) => {
+      await createExam(examData);
+      dispatch({ type: "CLOSE_MODALS" });
+    },
+    [createExam]
   );
 
-  // Hent data ved start
-  useEffect(() => {
-    const loadExams = async () => {
+  const handleUpdateExam = useCallback(
+    async (examData: Exam) => {
+      await updateExam(examData);
+      dispatch({ type: "CLOSE_MODALS" });
+    },
+    [updateExam]
+  );
+
+  const handleConfirmDelete = useCallback(async () => {
+    if (!uiState.deletingExamId) return;
+    await deleteExam(uiState.deletingExamId);
+    dispatch({ type: "CLOSE_MODALS" });
+  }, [deleteExam, uiState.deletingExamId]);
+
+  const handleDeleteStudent = useCallback(
+    async (studentId: string) => {
+      if (!uiState.viewingStudentsFor) return;
       try {
-        setIsLoading(true);
-        const fetchedExams = await api.getExams();
-        const upcomingExams = fetchedExams.filter(
-          (exam) => exam.status !== "finished"
+        await api.deleteStudent(studentId);
+        const updatedStudents = uiState.viewingStudentsFor.students.filter(
+          (s) => s.id !== studentId
         );
-        setExams(upcomingExams);
+        const updatedExam = {
+          ...uiState.viewingStudentsFor,
+          students: updatedStudents,
+        };
+        updateStudentsInExam(updatedExam);
+        dispatch({ type: "UPDATE_VIEWING_STUDENTS", payload: updatedExam });
       } catch {
-        setError("Kunne ikke hente eksamener. Prøv igen senere.");
-      } finally {
-        setIsLoading(false);
+        // Error handling can be improved by adding a local error state or enhancing the context
+        console.error("Failed to delete student");
       }
-    };
-    loadExams();
-  }, []);
+    },
+    [uiState.viewingStudentsFor, updateStudentsInExam]
+  );
 
-  const handleExamUpdated = async (updatedExam: Exam) => {
-    try {
-      const returnedExam = await api.updateExam(updatedExam);
-      setExams((prev) =>
-        prev.map((ex) => (ex.id === returnedExam.id ? returnedExam : ex))
-      );
-      setEditingExam(null);
-    } catch {
-      setError("Failed to update exam. Please try again later.");
-    }
-  };
-
-  const handleConfirmDelete = async () => {
-    if (!deletingExamId) return;
-    try {
-      await api.deleteExam(deletingExamId);
-      setExams((prev) => prev.filter((ex) => ex.id !== deletingExamId));
-      setDeletingExamId(null);
-    } catch {
-      setError("Failed to delete exam. Please try again later.");
-    }
-  };
-
-  // Funktion til at opdatere exams-state, når studerende er blevet ændret
-  const handleStudentsUpdate = (updatedExam: Exam) => {
-    setExams((prev) =>
-      prev.map((ex) => (ex.id === updatedExam.id ? updatedExam : ex))
-    );
-  };
-
-  const handleExamCreated = (newExam: Exam) => {
-    setExams((prevExams) => [...prevExams, newExam]);
-    setIsCreateModalOpen(false);
-  };
-
-  const handleCardClick = (exam: Exam) => {
-    setViewingStudentsFor(exam);
-  };
-
-  const handleEditClick = (exam: Exam) => {
-    setEditingExam(exam);
-  };
-
-  const handleDeleteClick = (examId: string) => {
-    setDeletingExamId(examId);
-  };
-
-  const handleDeleteStudent = async (studentId: string) => {
-    if (!viewingStudentsFor) return;
-
-    try {
-      await api.deleteStudent(studentId);
-
-      const updatedStudents = viewingStudentsFor.students.filter(
-        (s) => s.id !== studentId
-      );
-
-      const updatedExam = { ...viewingStudentsFor, students: updatedStudents };
-
-      setViewingStudentsFor(updatedExam);
-      setExams((prevExams) =>
-        prevExams.map((exam) =>
-          exam.id === updatedExam.id ? updatedExam : exam
-        )
-      );
-    } catch {
-      setError("Failed to delete student. Please try again later.");
-    }
-  };
-
+  // --- Render Logic ---
   if (isLoading) return <p>Henter eksamener...</p>;
   if (error) return <p className={styles.error}>{error}</p>;
 
@@ -131,38 +136,38 @@ const HomePage = () => {
     <div className={styles.homePage}>
       <header className={styles.header}>
         <h1>Dashboard</h1>
-        <Button onClick={() => setIsCreateModalOpen(true)}>
+        <Button onClick={() => dispatch({ type: "OPEN_CREATE_MODAL" })}>
           Opret Ny Eksamen
         </Button>
       </header>
 
-      {/* --- Modaler --- */}
+      {/* --- Modals --- */}
       <Modal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
+        isOpen={uiState.isCreateModalOpen}
+        onClose={() => dispatch({ type: "CLOSE_MODALS" })}
         title="Opret Ny Eksamen"
       >
-        <CreateExamForm onExamCreated={handleExamCreated} />
+        <CreateExamForm onExamCreated={handleCreateExam} />
       </Modal>
 
-      {editingExam && (
+      {uiState.editingExam && (
         <Modal
-          isOpen={!!editingExam}
-          onClose={() => setEditingExam(null)}
-          title={`Edit Exam: ${editingExam.courseName}`}
+          isOpen={!!uiState.editingExam}
+          onClose={() => dispatch({ type: "CLOSE_MODALS" })}
+          title={`Edit Exam: ${uiState.editingExam.courseName}`}
         >
           <EditExamForm
-            exam={editingExam}
-            onUpdateExam={handleExamUpdated}
-            onClose={() => setEditingExam(null)}
+            exam={uiState.editingExam}
+            onUpdateExam={handleUpdateExam}
+            onClose={() => dispatch({ type: "CLOSE_MODALS" })}
           />
         </Modal>
       )}
 
-      {deletingExamId && (
+      {uiState.deletingExamId && (
         <Modal
-          isOpen={!!deletingExamId}
-          onClose={() => setDeletingExamId(null)}
+          isOpen={!!uiState.deletingExamId}
+          onClose={() => dispatch({ type: "CLOSE_MODALS" })}
           title="Confirm Deletion"
         >
           <div>
@@ -170,35 +175,38 @@ const HomePage = () => {
             <Button onClick={handleConfirmDelete} variant="danger">
               Delete
             </Button>
-            <Button onClick={() => setDeletingExamId(null)} variant="secondary">
+            <Button
+              onClick={() => dispatch({ type: "CLOSE_MODALS" })}
+              variant="secondary"
+            >
               Cancel
             </Button>
           </div>
         </Modal>
       )}
 
-      {managingStudentsFor && (
+      {uiState.managingStudentsFor && (
         <Modal
-          isOpen={!!managingStudentsFor}
-          onClose={() => setManagingStudentsFor(null)}
-          title={`Administrer Studerende for: ${managingStudentsFor.courseName}`}
+          isOpen={!!uiState.managingStudentsFor}
+          onClose={() => dispatch({ type: "CLOSE_MODALS" })}
+          title={`Administrer Studerende for: ${uiState.managingStudentsFor.courseName}`}
         >
           <ManageStudentsModal
-            exam={managingStudentsFor}
-            onClose={() => setManagingStudentsFor(null)}
-            onStudentsUpdate={handleStudentsUpdate}
+            exam={uiState.managingStudentsFor}
+            onClose={() => dispatch({ type: "CLOSE_MODALS" })}
+            onStudentsUpdate={updateStudentsInExam}
           />
         </Modal>
       )}
 
-      {viewingStudentsFor && (
+      {uiState.viewingStudentsFor && (
         <Modal
-          isOpen={!!viewingStudentsFor}
-          onClose={() => setViewingStudentsFor(null)}
-          title={`Studerende på: ${viewingStudentsFor.courseName}`}
+          isOpen={!!uiState.viewingStudentsFor}
+          onClose={() => dispatch({ type: "CLOSE_MODALS" })}
+          title={`Studerende på: ${uiState.viewingStudentsFor.courseName}`}
         >
           <StudentListModal
-            students={viewingStudentsFor.students}
+            students={uiState.viewingStudentsFor.students}
             onDeleteStudent={handleDeleteStudent}
           />
         </Modal>
@@ -212,10 +220,18 @@ const HomePage = () => {
             <ExamCard
               key={exam.id}
               exam={exam}
-              onCardClick={handleCardClick}
-              onEditClick={handleEditClick}
-              onDeleteClick={handleDeleteClick}
-              onManageStudentsClick={setManagingStudentsFor}
+              onCardClick={(ex) =>
+                dispatch({ type: "OPEN_VIEW_STUDENTS_MODAL", payload: ex })
+              }
+              onEditClick={(ex) =>
+                dispatch({ type: "OPEN_EDIT_MODAL", payload: ex })
+              }
+              onDeleteClick={(id) =>
+                dispatch({ type: "OPEN_DELETE_MODAL", payload: id })
+              }
+              onManageStudentsClick={(ex) =>
+                dispatch({ type: "OPEN_MANAGE_STUDENTS_MODAL", payload: ex })
+              }
             />
           )}
         />

@@ -1,9 +1,7 @@
-/* src/pages/HistoryPage/HistoryPage.module.css */
-
 .historyPage {
   display: flex;
   flex-direction: column;
-  height: 100%; /* This allows the list to grow and scroll within the page */
+  height: 100%;
 }
 
 .historyPage h1 {
@@ -106,23 +104,21 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 2rem; /* Placeret efter filter-komponenten */
+  margin-bottom: 2rem;
 }
 
-/* Styling for labelen "Vis antal:" */
 .displayCountControl label {
   font-weight: 600;
   font-size: 0.9rem;
   color: #555;
 }
 
-/* Styling for input-feltet til antal */
 .displayCountInput {
   padding: 0.6rem;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
-  width: 80px; /* En fast bredde er passende her */
+  width: 80px;
 }
 
 .error {

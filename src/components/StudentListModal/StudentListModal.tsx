@@ -1,5 +1,3 @@
-// src/components/StudentListModal/StudentListModal.tsx
-
 import type { Student } from "../../types/types";
 import Button from "../ui/Button/Button";
 import styles from "./StudentListModal.module.css";

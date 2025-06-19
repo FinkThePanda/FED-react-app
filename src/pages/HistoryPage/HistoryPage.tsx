@@ -1,4 +1,3 @@
-// src/pages/HistoryPage/HistoryPage.tsx
 import { useHistoryPage } from "../../hooks/useHistoryPage";
 
 // Importer UI komponenter

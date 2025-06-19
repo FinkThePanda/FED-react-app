@@ -1,5 +1,3 @@
-// src/components/FilterControls/FilterControls.tsx
-
 import React from "react";
 import styles from "./FilterControls.module.css";
 

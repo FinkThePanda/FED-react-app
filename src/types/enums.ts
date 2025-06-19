@@ -1,4 +1,3 @@
-// src/types/enums.ts
 export const ExamPhase = {
   WaitingForStudent: "WaitingForStudent",
   QuestionDrawn: "QuestionDrawn",

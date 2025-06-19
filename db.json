@@ -117,7 +117,7 @@
       "numberOfQuestions": 10,
       "examDurationMinutes": 20,
       "startTime": "09:00",
-      "status": "upcoming"
+      "status": "finished"
     },
     {
       "id": "86bd",
@@ -387,7 +387,7 @@
       "studentNo": "234567",
       "name": "LASse",
       "examId": "180b",
-      "order": 3,
+      "order": 5,
       "questionNo": 7,
       "actualExamDuration": 0,
       "notes": "LUL",
@@ -398,7 +398,11 @@
       "studentNo": "234567",
       "name": "Simon",
       "examId": "180b",
-      "order": 2
+      "order": 2,
+      "questionNo": 7,
+      "actualExamDuration": 0,
+      "notes": "YEYSYEYYSYEYE",
+      "grade": "12"
     },
     {
       "id": "2745",
@@ -420,6 +424,24 @@
       "name": "Jeppe",
       "examId": "180b",
       "order": 4
+    },
+    {
+      "id": "f50f",
+      "studentNo": "123567",
+      "name": "Test",
+      "examId": "180b",
+      "order": 3
+    },
+    {
+      "id": "f24f",
+      "studentNo": "12345678",
+      "name": "LAKSJRI",
+      "examId": "7e0a",
+      "order": 0,
+      "questionNo": 3,
+      "actualExamDuration": 0,
+      "notes": "dfght43wsdfgtr",
+      "grade": "12"
     }
   ]
 }

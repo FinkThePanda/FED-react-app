@@ -1,16 +1,22 @@
-// src/components/ExamList/ExamList.tsx
-
 import type { Exam } from "../../types/types";
 import ExamCard from "../ExamCard/ExamCard";
 import styles from "./ExamList.module.css";
 
 interface ExamListProps {
   exams: Exam[];
-  onAddStudentClick: (examId: string) => void;
-  onCardClick: (exam: Exam) => void; // Ny prop
+  onManageStudentsClick: (exam: Exam) => void;
+  onCardClick: (exam: Exam) => void;
+  onEditClick: (exam: Exam) => void;
+  onDeleteClick: (examId: string) => void;
 }
 
-const ExamList = ({ exams, onAddStudentClick, onCardClick }: ExamListProps) => {
+const ExamList = ({
+  exams,
+  onManageStudentsClick,
+  onCardClick,
+  onEditClick,
+  onDeleteClick,
+}: ExamListProps) => {
   return (
     <div className={styles.examList}>
       {exams.length > 0 ? (
@@ -18,8 +24,10 @@ const ExamList = ({ exams, onAddStudentClick, onCardClick }: ExamListProps) => {
           <ExamCard
             key={exam.id}
             exam={exam}
-            onAddStudentClick={onAddStudentClick}
-            onCardClick={onCardClick} // Sendes videre her
+            onManageStudentsClick={onManageStudentsClick}
+            onCardClick={onCardClick}
+            onEditClick={onEditClick}
+            onDeleteClick={onDeleteClick}
           />
         ))
       ) : (

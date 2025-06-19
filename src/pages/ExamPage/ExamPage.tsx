@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
-import { useExam } from "../../hooks/useExam"; // Importer vores nye hook
-import { formatTime } from "../../utils/time"; // Importer vores nye util
+import { useExam } from "../../hooks/useExam";
+import { formatTime } from "../../utils/time";
 import { ExamPhase } from "../../types/enums";
 import Button from "../../components/ui/Button/Button";
 import styles from "./ExamPage.module.css";

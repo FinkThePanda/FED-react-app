@@ -1,4 +1,3 @@
-// src/services/api.ts
 import type { Exam, Student } from "../types/types";
 
 // NYT: URL'en bestemmes nu af en miljøvariabel.

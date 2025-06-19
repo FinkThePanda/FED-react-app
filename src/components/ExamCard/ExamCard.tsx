@@ -1,5 +1,3 @@
-// src/components/ExamCard/ExamCard.tsx
-
 import { Link } from "react-router-dom";
 import type { Exam } from "../../types/types";
 import Button from "../ui/Button/Button";

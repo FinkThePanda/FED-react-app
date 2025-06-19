@@ -1,11 +1,8 @@
-/* Fil: src/components/ExamList/ExamList.module.css */
-
 .examList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
 
-  /* NYT: Denne linje er afgørende. Den forhindrer rækker i at strække sig. */
   align-content: start;
   flex-grow: 1;
   padding: 0.5rem 1rem 0.5rem 0.5rem;

@@ -1,4 +1,3 @@
-// src/components/ManageStudentsModal/ManageStudentsModal.tsx
 import { useState, useEffect } from "react";
 import type { Exam, Student } from "../../types/types";
 import * as api from "../../services/api";

@@ -1,4 +1,3 @@
-// src/hooks/useHomePage.ts
 import { useState, useEffect } from "react";
 import * as api from "../services/api";
 import type { Exam, Student } from "../types/types";

@@ -1,64 +1,46 @@
-// src/hooks/useHistoryPage.ts
-import { useState, useEffect, useMemo } from "react";
-import * as api from "../services/api";
+import { useState, useMemo, useCallback } from "react";
+import { useExams } from "../context/ExamContext"; // Import context hook
 import type { Exam } from "../types/types";
 import type { FilterOptions } from "../components/ui/FilterControls/FilterControls";
 
 /**
- * Custom Hook til at håndtere al logik og state for HistoryPage.
- * Den indkapsler datahentning, filtrering, sortering og modal-håndtering.
+ * Custom Hook to handle all logic and state for HistoryPage.
+ * It encapsulates data filtering, sorting, and modal handling, using global exam state.
  */
 export const useHistoryPage = () => {
-  // --- STATE MANAGEMENT ---
-  // Rå, ufiltreret liste af alle afsluttede eksamener fra API'et.
-  const [allExams, setAllExams] = useState<Exam[]>([]);
-  // Styrer visning af loading-spinner eller besked.
-  const [isLoading, setIsLoading] = useState(true);
-  // Holder eventuelle fejlbeskeder.
-  const [error, setError] = useState<string | null>(null);
+  // --- GLOBAL STATE ---
+  // Get exams, loading status, and errors from the global context.
+  const { exams, isLoading, error } = useExams();
 
-  // States til filter- og sorteringsmuligheder.
+  // --- LOCAL UI STATE ---
+  // States for filtering and sorting options.
   const [filters, setFilters] = useState<FilterOptions>({
     course: "",
     term: "",
     sortOrder: "desc",
   });
-  // State til at styre, hvor mange resultater der vises.
+  // State to control how many results are displayed.
   const [displayCount, setDisplayCount] = useState(10);
-  // State til at styre, hvilken eksamens resultater der vises i en modal.
+  // State to control which exam's results are shown in a modal.
   const [viewingResultsFor, setViewingResultsFor] = useState<Exam | null>(null);
 
-  // --- DATA FETCHING ---
-  // useEffect-hook til at hente data, når komponenten mounter første gang.
-  useEffect(() => {
-    const loadHistory = async () => {
-      try {
-        const fetchedExams = await api.getExams();
-        // Filtrer listen, så den kun indeholder eksamener, der er markeret som 'finished'
-        // eller hvor mindst én studerende har fået en karakter.
-        const completedExams = fetchedExams.filter(
-          (exam) =>
-            exam.status === "finished" || exam.students.some((s) => s.grade)
-        );
-        setAllExams(completedExams);
-      } catch {
-        setError("Kunne ikke hente historik.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadHistory();
-  }, []); // Det tomme dependency-array sikrer, at effekten kun kører én gang.
-
   // --- MEMOIZED COMPUTATIONS ---
-  // useMemo bruges til at undgå unødvendige genberegninger.
+  // useMemo is used to avoid unnecessary recalculations.
 
-  // Beregner unikke kursusnavne og terminer til filter-dropdowns.
-  // Kører kun igen, hvis 'allExams' ændrer sig.
+  // Filter the global list of exams to only include those marked as 'finished'
+  // or where at least one student has received a grade.
+  const completedExams = useMemo(() => {
+    return exams.filter(
+      (exam) => exam.status === "finished" || exam.students.some((s) => s.grade)
+    );
+  }, [exams]);
+
+  // Calculate unique course names and terms for filter dropdowns.
+  // Runs only when 'completedExams' changes.
   const { uniqueCourses, uniqueTerms } = useMemo(() => {
     const courseSet = new Set<string>();
     const termSet = new Set<string>();
-    allExams.forEach((exam) => {
+    completedExams.forEach((exam) => {
       courseSet.add(exam.courseName);
       termSet.add(exam.examtermin);
     });
@@ -66,12 +48,12 @@ export const useHistoryPage = () => {
       uniqueCourses: Array.from(courseSet),
       uniqueTerms: Array.from(termSet),
     };
-  }, [allExams]);
+  }, [completedExams]);
 
-  // Anvender de aktuelle filtre og sortering på eksamenslisten.
-  // Kører kun igen, hvis data, filtre eller antal ændrer sig.
+  // Apply the current filters and sorting to the exam list.
+  // Runs only if data, filters, or display count change.
   const processedExams = useMemo(() => {
-    const filtered = allExams.filter(
+    const filtered = completedExams.filter(
       (exam) =>
         (filters.course ? exam.courseName === filters.course : true) &&
         (filters.term ? exam.examtermin === filters.term : true)
@@ -84,11 +66,17 @@ export const useHistoryPage = () => {
     });
 
     return filtered.slice(0, displayCount);
-  }, [allExams, filters, displayCount]);
+  }, [completedExams, filters, displayCount]);
 
-  // --- HELPER FUNCTIONS ---
-  // En ren funktion til at beregne gennemsnitskarakter for en given eksamen.
-  const calculateAverageGrade = (exam: Exam): string => {
+  // --- ACTIONS & HELPERS ---
+  // Wrap action functions in useCallback to prevent re-creation on re-renders.
+
+  const handleCardClick = useCallback((exam: Exam) => {
+    setViewingResultsFor(exam);
+  }, []);
+
+  // A pure function to calculate the average grade for a given exam.
+  const calculateAverageGrade = useCallback((exam: Exam): string => {
     const gradedStudents = exam.students.filter(
       (s) => s.grade && !isNaN(parseInt(s.grade, 10))
     );
@@ -98,16 +86,11 @@ export const useHistoryPage = () => {
       0
     );
     const average = total / gradedStudents.length;
-    return average.toFixed(2);
-  };
-
-  // Funktion til at håndtere klik på et kort.
-  const handleCardClick = (exam: Exam) => {
-    setViewingResultsFor(exam);
-  };
+    return average.toFixed(2); // Return average with 2 decimal places.
+  }, []);
 
   // --- RETURN VALUE ---
-  // Returnerer et objekt med state og actions, som UI-komponenten kan bruge.
+  // Expose state and actions for the component to use.
   return {
     state: {
       isLoading,
