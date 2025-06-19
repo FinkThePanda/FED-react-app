@@ -45,7 +45,7 @@ const HomePage = () => {
           (exam) => exam.status !== "finished"
         );
         setExams(upcomingExams);
-      } catch (err) {
+      } catch {
         setError("Kunne ikke hente eksamener. Prøv igen senere.");
       } finally {
         setIsLoading(false);
@@ -61,7 +61,7 @@ const HomePage = () => {
         prev.map((ex) => (ex.id === returnedExam.id ? returnedExam : ex))
       );
       setEditingExam(null);
-    } catch (error) {
+    } catch {
       setError("Failed to update exam. Please try again later.");
     }
   };
@@ -72,7 +72,7 @@ const HomePage = () => {
       await api.deleteExam(deletingExamId);
       setExams((prev) => prev.filter((ex) => ex.id !== deletingExamId));
       setDeletingExamId(null);
-    } catch (error) {
+    } catch {
       setError("Failed to delete exam. Please try again later.");
     }
   };
@@ -119,7 +119,7 @@ const HomePage = () => {
           exam.id === updatedExam.id ? updatedExam : exam
         )
       );
-    } catch (err) {
+    } catch {
       setError("Failed to delete student. Please try again later.");
     }
   };

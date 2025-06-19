@@ -40,7 +40,7 @@ export const useExam = (examId: string | undefined) => {
         } else {
           setCurrentStudentIndex(nextStudentIndex > -1 ? nextStudentIndex : 0);
         }
-      } catch (err) {
+      } catch {
         setError("Kunne ikke finde eksamen.");
       } finally {
         setIsLoading(false);
@@ -67,7 +67,8 @@ export const useExam = (examId: string | undefined) => {
 
   const playNotificationSound = () => {
     const audioCtx = new (window.AudioContext ||
-      (window as any).webkitAudioContext)();
+      (window as { webkitAudioContext?: typeof AudioContext })
+        .webkitAudioContext)();
     if (!audioCtx) return;
     const oscillator = audioCtx.createOscillator();
     oscillator.type = "sine";
@@ -135,7 +136,7 @@ export const useExam = (examId: string | undefined) => {
       } else {
         setPhase(ExamPhase.AllStudentsGraded);
       }
-    } catch (err) {
+    } catch {
       setError("Kunne ikke gemme data. Prøv igen.");
     }
   };
@@ -152,7 +153,7 @@ export const useExam = (examId: string | undefined) => {
       await api.finishExam(examId);
       setPhase(ExamPhase.Finished);
       setTimeout(() => navigate("/"), 2000);
-    } catch (err) {
+    } catch {
       setError("Fejl ved arkivering af eksamen.");
     }
   };

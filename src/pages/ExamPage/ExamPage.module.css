@@ -4,7 +4,6 @@
   padding: 0;
   animation: fadeIn 0.5s;
   height: 100vh;
-  overflow-y: auto;
 }
 
 .examHeader {

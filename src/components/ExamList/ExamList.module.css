@@ -7,9 +7,6 @@
 
   /* NYT: Denne linje er afgørende. Den forhindrer rækker i at strække sig. */
   align-content: start;
-
-  /* Disse linjer gør listen scrollbar */
-  overflow-y: auto;
   flex-grow: 1;
   padding: 0.5rem 1rem 0.5rem 0.5rem;
 }

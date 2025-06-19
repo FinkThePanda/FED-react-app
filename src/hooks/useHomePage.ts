@@ -25,7 +25,7 @@ export const useHomePage = () => {
           (exam) => exam.status !== "finished"
         );
         setExams(upcomingExams);
-      } catch (err) {
+      } catch {
         setError("Kunne ikke hente eksamener. Prøv igen senere.");
       } finally {
         setIsLoading(false);

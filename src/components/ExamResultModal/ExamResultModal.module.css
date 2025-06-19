@@ -2,7 +2,7 @@
 .resultContainer {
   padding: 0.5rem 0;
   max-height: 400px; /* Sætter en max-højde, så modalen ikke bliver for høj */
-  overflow-y: auto; /* Gør tabellen scrollbar, hvis der er mange studerende */
+  overflow-y: auto;
 }
 
 .resultTable {

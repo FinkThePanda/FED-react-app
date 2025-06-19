@@ -27,9 +27,9 @@ Dette er en React-baseret webapplikation designet til at hjælpe eksaminatorer m
 
 ## Kørsel af Applikationen
 
-Der er to måder at køre applikationen på: lokalt til udvikling eller via Docker for en nem og isoleret opsætning.
+Der er en måde og køre applikationen på: lokalt til udvikling eller via Docker for en nem og isoleret opsætning.
 
-**Metode 1: Lokal Udvikling**
+**Metode: Lokal Udvikling**
 **Forkrav:**
 
 - Node.js (v16 eller nyere)
@@ -60,37 +60,6 @@ npm run dev
 ```
 
 Applikationen er nu tilgængelig på http://localhost:5173 (eller en anden port, som Vite angiver).
-
-**Metode 2: Kørsel med Docker (Anbefalet til præsentation)**
-Denne metode bygger og kører både frontend og backend i isolerede Docker-containere. Det er den nemmeste måde at køre appen på en anden maskine.
-
-**Forkrav:**
-
-Docker Desktop
-
-**Kørsel:**
-
-1. Klon/installer projektet:
-
-```bash
-git clone <din-repository-url>
-cd eksamens-app
-```
-
-2. Byg og start containerne:
-   Kør følgende kommando fra projektets rodmappe. Docker vil automatisk downloade, bygge og starte alt, hvad der er nødvendigt.
-
-```bash
-docker-compose up --build
-```
-
-- Første gang kan dette tage et par minutter. Efterfølgende starter det meget hurtigere.
-
-3. Åbn applikationen:
-   Applikationen er nu tilgængelig på `http://localhost:8080`.
-
-4. Stop applikationen:
-   Tryk `Ctrl + C` i terminalen for at stoppe containerne.
 
 ## Brugerflow til Test
 

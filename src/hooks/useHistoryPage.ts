@@ -41,7 +41,7 @@ export const useHistoryPage = () => {
             exam.status === "finished" || exam.students.some((s) => s.grade)
         );
         setAllExams(completedExams);
-      } catch (err) {
+      } catch {
         setError("Kunne ikke hente historik.");
       } finally {
         setIsLoading(false);
@@ -71,7 +71,7 @@ export const useHistoryPage = () => {
   // Anvender de aktuelle filtre og sortering på eksamenslisten.
   // Kører kun igen, hvis data, filtre eller antal ændrer sig.
   const processedExams = useMemo(() => {
-    let filtered = allExams.filter(
+    const filtered = allExams.filter(
       (exam) =>
         (filters.course ? exam.courseName === filters.course : true) &&
         (filters.term ? exam.examtermin === filters.term : true)

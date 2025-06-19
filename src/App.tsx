@@ -1,6 +1,12 @@
 // src/App.tsx
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
 // Importerer layout-komponenter
 import Header from "./Layout/Header/Header";
@@ -10,32 +16,56 @@ import Footer from "./Layout/Footer/Footer";
 import HomePage from "./pages/HomePage/HomePage";
 import ExamPage from "./pages/ExamPage/ExamPage";
 import HistoryPage from "./pages/HistoryPage/HistoryPage";
+import PageTransition from "./components/animations/PageTransition";
 
 // Importerer global styling
 import "./App.css";
+
+function AppContent() {
+  const location = useLocation();
+  return (
+    <div className="app-container">
+      <Header />
+      <main className="main-content">
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route
+              path="/"
+              element={
+                <PageTransition>
+                  <HomePage />
+                </PageTransition>
+              }
+            />
+            <Route
+              path="/exam/:examId"
+              element={
+                <PageTransition>
+                  <ExamPage />
+                </PageTransition>
+              }
+            />
+            <Route
+              path="/history"
+              element={
+                <PageTransition>
+                  <HistoryPage />
+                </PageTransition>
+              }
+            />
+          </Routes>
+        </AnimatePresence>
+      </main>
+      <Footer />
+    </div>
+  );
+}
 
 function App() {
   return (
     // Router-komponenten omslutter hele appen og muliggør client-side navigation.
     <Router>
-      <div className="app-container">
-        <Header />
-        <main className="main-content">
-          {/* Routes-komponenten definerer, hvilken komponent der skal vises for hver URL-sti. */}
-          <Routes>
-            {/* Standardruten '/' viser HomePage. 'element' prop'en tager JSX. */}
-            <Route path="/" element={<HomePage />} />
-            npm install react-router-dom
-            {/* Dynamisk rute for en specifik eksamen. ':examId' er en URL-parameter. */}
-            <Route path="/exam/:examId" element={<ExamPage />} />
-            {/* Rute for historik-siden. */}
-            <Route path="/history" element={<HistoryPage />} />
-            {/* Man kunne tilføje en "catch-all" rute for 404-fejl her: */}
-            {/* <Route path="*" element={<NotFoundPage />} /> */}
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <AppContent />
     </Router>
   );
 }

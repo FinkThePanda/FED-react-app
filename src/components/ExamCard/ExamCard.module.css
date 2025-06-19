@@ -50,6 +50,15 @@
   flex: 1;
 }
 
+.topActions a {
+  display: flex;
+  text-decoration: none;
+}
+
+.topActions a > button {
+  width: 100%;
+}
+
 .deleteButton {
   width: 100%;
   color: #fff;
