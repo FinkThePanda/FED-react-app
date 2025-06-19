@@ -1,0 +1,226 @@
+{
+  "exams": [
+    {
+      "id": "1",
+      "examTerm": "sommer 25",
+      "courseName": "Introduktion til Programmering",
+      "date": "2025-06-25",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 15,
+      "startTime": "09:00",
+      "status": "finished"
+    },
+    {
+      "id": "a5a6",
+      "examtermin": "Sommer 25",
+      "courseName": "Test 1",
+      "date": "2025-06-20",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 20,
+      "startTime": "09:00",
+      "status": "finished"
+    },
+    {
+      "id": "7cbb",
+      "examtermin": "Vinter 26",
+      "courseName": "Test 1",
+      "date": "2025-11-14",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 20,
+      "startTime": "09:00",
+      "status": "finished"
+    },
+    {
+      "id": "9fe0",
+      "examtermin": "Sommer 25",
+      "courseName": "Test eksamen færdig",
+      "date": "2025-06-19",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 1,
+      "startTime": "09:00",
+      "status": "finished"
+    },
+    {
+      "id": "27df",
+      "examtermin": "Sommer 25",
+      "courseName": "Final Test",
+      "date": "2025-06-20",
+      "numberOfQuestions": 8,
+      "examDurationMinutes": 20,
+      "startTime": "10:00",
+      "status": "finished"
+    },
+    {
+      "id": "cb05",
+      "examtermin": "ererer",
+      "courseName": "Kort",
+      "date": "2025-06-05",
+      "numberOfQuestions": 10,
+      "examDurationMinutes": 20,
+      "startTime": "09:00",
+      "status": "upcoming"
+    }
+  ],
+  "students": [
+    {
+      "id": "1",
+      "examId": 1,
+      "studentNo": "123456",
+      "name": "Alice Andersen",
+      "order": 1,
+      "questionNo": 8,
+      "actualExamDurationMinutes": 14,
+      "notes": "Rigtig god forståelse for emnet.",
+      "grade": "12"
+    },
+    {
+      "id": "2",
+      "examId": 1,
+      "studentNo": "654321",
+      "name": "Bob Bakker",
+      "order": 2,
+      "questionNo": 4,
+      "actualExamDurationMinutes": 1,
+      "notes": "test",
+      "grade": "12"
+    },
+    {
+      "id": "923f",
+      "studentNo": "202312345",
+      "name": "Test Manden",
+      "examId": "1",
+      "questionNo": 10,
+      "actualExamDuration": 0,
+      "notes": "test test ",
+      "grade": "10"
+    },
+    {
+      "id": "b257",
+      "studentNo": "12345678",
+      "name": "Test test",
+      "examId": "a5a6",
+      "questionNo": 7,
+      "actualExamDuration": 0,
+      "notes": "Some stuff happens",
+      "grade": "-3"
+    },
+    {
+      "id": "788a",
+      "studentNo": "123456768",
+      "name": "Vinter Eksaminant",
+      "examId": "7cbb",
+      "questionNo": 1,
+      "actualExamDuration": 0,
+      "notes": "Her tester jeg hvad der sker hvis vi har dubletter af courseName",
+      "grade": "4"
+    },
+    {
+      "id": "b1d7",
+      "studentNo": "12356",
+      "name": "Test 2",
+      "examId": "7cbb",
+      "questionNo": 5,
+      "actualExamDuration": 0,
+      "notes": "",
+      "grade": "7"
+    },
+    {
+      "id": "5912",
+      "studentNo": "13",
+      "name": "Test 3",
+      "examId": "7cbb",
+      "questionNo": 10,
+      "actualExamDuration": 0,
+      "notes": "Hej jeg er eksaminand nr 3 og jeg bliver vurderet nu",
+      "grade": "10"
+    },
+    {
+      "id": "a337",
+      "studentNo": "1234",
+      "name": "Test 4",
+      "examId": "7cbb",
+      "questionNo": 3,
+      "actualExamDuration": 0,
+      "notes": "Helløj",
+      "grade": "12"
+    },
+    {
+      "id": "e112",
+      "studentNo": "123454",
+      "name": "Test 5",
+      "examId": "7cbb",
+      "questionNo": 1,
+      "actualExamDuration": 0,
+      "notes": "eeee",
+      "grade": "10"
+    },
+    {
+      "id": "bcde",
+      "studentNo": "123",
+      "name": "Test Respons",
+      "examId": "9fe0",
+      "questionNo": 2,
+      "actualExamDuration": 1,
+      "notes": "Lyd test godkendt",
+      "grade": "12"
+    },
+    {
+      "id": "855f",
+      "studentNo": "12345678",
+      "name": "erererer",
+      "examId": "a5a6",
+      "questionNo": 7,
+      "actualExamDuration": 0,
+      "notes": "fdfdfdfd",
+      "grade": "12"
+    },
+    {
+      "id": "0bcd",
+      "studentNo": "1",
+      "name": "Eksaminand 1",
+      "examId": "27df",
+      "questionNo": 4,
+      "actualExamDuration": 0,
+      "notes": "Hej Hej Hej fra Nr 1",
+      "grade": "7"
+    },
+    {
+      "id": "162b",
+      "studentNo": "2",
+      "name": "Eksaminand 1",
+      "examId": "27df",
+      "questionNo": 4,
+      "actualExamDuration": 0,
+      "notes": "sdsdsds",
+      "grade": "12"
+    },
+    {
+      "id": "90a2",
+      "studentNo": "3",
+      "name": "Eksaminand 3",
+      "examId": "27df",
+      "questionNo": 8,
+      "actualExamDuration": 0,
+      "notes": "sdsdsdsd",
+      "grade": "12"
+    },
+    {
+      "id": "736d",
+      "studentNo": "1",
+      "name": "Test 1",
+      "examId": "cb05",
+      "order": 1,
+      "questionNo": 6,
+      "actualExamDuration": 0,
+      "notes": "rghuerbgjiernvjirebgjiorenbgjiedrfngijo¨\nujerbgjirfedngjioedrfngjioedrfnghiujoreng",
+      "grade": "10"
+    },
+    {
+      "id": "bd19",
+      "studentNo": "2",
+      "name": "Test 2",
+      "examId": "cb05",
+      "order": 0
+    }
+  ]
+}

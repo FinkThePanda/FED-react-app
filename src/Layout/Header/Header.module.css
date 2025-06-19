@@ -1,0 +1,71 @@
+/* Fil: src/components/Layout/Header/Header.module.css */
+
+.header {
+  /* Denne klasse styrer selve header-bjælken */
+  background-color: #ffffff;
+  padding: 1rem 4%; /* Brug procent for at matche .main-content */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%; /* Sørg for den tager fuld bredde */
+  box-sizing: border-box; /* Sørg for padding er inkluderet */
+}
+
+.container {
+  /* Denne klasse styrer KUN indholdet INDE I headeren */
+  max-width: 1200px; /* Sætter en max-bredde for logo/nav, så de ikke bliver for spredt */
+  margin: 0 auto; /* Centrerer indholdet */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #555;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.2s ease-in-out;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #3498db;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.navLink:hover {
+  color: #2c3e50;
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.navLink.active {
+  color: #3498db;
+  font-weight: 700;
+}

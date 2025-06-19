@@ -1,0 +1,149 @@
+/* src/pages/ExamPage/ExamPage.module.css */
+
+.examPage {
+  padding: 0;
+  animation: fadeIn 0.5s;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.examHeader {
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.examHeader h1 {
+  margin: 0;
+}
+.examHeader h2 {
+  margin: 0.25rem 0 0;
+  color: #666;
+  font-weight: 400;
+}
+
+.backLink {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-decoration: none;
+  color: #3498db;
+  font-weight: 500;
+  padding: 0.5rem;
+}
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.studentContainer {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px; /* Sikrer at selve eksamensboksen er centreret og læsbar */
+  margin: 0 auto; /* Centrerer boksen */
+}
+
+.studentInfo {
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.studentInfo h3 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+.studentInfo p {
+  margin: 0.25rem 0;
+  color: #555;
+}
+
+.skipButton {
+  background: none;
+  border: none;
+  color: #95a5a6;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+.skipButton:hover {
+  color: #34495e;
+}
+
+.examControls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.examControls p {
+  font-size: 1.2rem;
+}
+
+.timerDisplay {
+  font-size: 4rem;
+  font-weight: 700;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.notesArea {
+  width: 100%;
+  max-width: 500px;
+  min-height: 120px;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+.gradingSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.gradingSection p {
+  font-size: 1rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.gradingSection select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 50%;
+  max-width: 200px;
+}
+
+.finishedContainer {
+  text-align: center;
+  padding: 3rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.error {
+  color: #e74c3c;
+  font-weight: bold;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,66 @@
+/* src/pages/HomePage/HomePage.module.css */
+
+.homePage {
+  /* Får .homePage til at fylde hele .main-content området vertikalt */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  flex-shrink: 0; /* Forhindrer denne header i at krympe */
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2rem; /* Lidt større for mere visuel vægt */
+}
+
+.subHeader {
+  margin: 1.5rem 0;
+  flex-shrink: 0; /* Forhindrer denne header i at krympe */
+  font-size: 1.5rem;
+  color: #34495e; /* En lidt mørkere farve for bedre kontrast */
+}
+
+/* --- Styling for kortets indhold --- */
+/* Disse klasser bruges inde i den generiske <Card>-komponent */
+.cardContent {
+  flex-grow: 1; /* Sikrer at dette område vokser og skubber knapperne ned */
+}
+
+.cardContent h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.cardContent p {
+  margin: 0.25rem 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.cardActions {
+  /* Denne klasse tager ikke flex-grow, så den bliver i bunden */
+  padding-top: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  border-top: 1px solid #f0f0f0;
+}
+
+.error {
+  color: #e74c3c;
+  font-weight: bold;
+  text-align: center;
+  padding: 2rem;
+}

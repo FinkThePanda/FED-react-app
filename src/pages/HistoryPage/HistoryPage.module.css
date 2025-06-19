@@ -1,0 +1,136 @@
+/* src/pages/HistoryPage/HistoryPage.module.css */
+
+.historyPage h1 {
+  border-bottom: 2px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.filterControls {
+  margin-bottom: 2rem;
+}
+
+.filterInput {
+  padding: 0.75rem;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.examList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.examItem {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s;
+}
+
+.examHeader {
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.examHeader:hover {
+  background-color: #f8f9fa;
+}
+
+.courseName {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.examDate {
+  margin-left: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
+}
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+.studentDetails {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.studentDetails table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.studentDetails th,
+.studentDetails td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.studentDetails th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.studentDetails tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.displayCountControl {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem; /* Placeret efter filter-komponenten */
+}
+
+/* Styling for labelen "Vis antal:" */
+.displayCountControl label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Styling for input-feltet til antal */
+.displayCountInput {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 80px; /* En fast bredde er passende her */
+}
+
+.error {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

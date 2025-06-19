@@ -1,0 +1,36 @@
+/* src/components/ExamCard/ExamCard.module.css */
+
+.examCard {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  cursor: pointer; /* NYT: Viser at kortet er klikbart */
+}
+
+.examCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.cardContent h3 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+.cardContent p {
+  margin: 0.25rem 0;
+}
+
+.cardActions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}

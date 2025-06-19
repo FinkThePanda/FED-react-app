@@ -1,0 +1,14 @@
+/* src/components/Layout/Footer/Footer.module.css */
+
+.footer {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  text-align: center;
+  padding: 1.5rem 2rem;
+  margin-top: auto; /* Skubber footeren til bunden af flex-containeren */
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,20 @@
+services:
+  # Vores React Frontend
+  frontend:
+    build:
+      context: . # Fortæller den at bygge ud fra Dockerfile i samme mappe
+      # NYT: Sender et build-argument til Dockerfile
+      args:
+        - VITE_API_URL=http://backend:3000
+    ports:
+      - "8080:80" # Mapper port 8080 på din computer til port 80 i containeren
+
+  # Vores json-server Backend
+  backend:
+    image: node:18-alpine
+    working_dir: /app
+    command: npx json-server --watch db.json --host 0.0.0.0
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./db.json:/app/db.json

@@ -1,0 +1,18 @@
+/* src/components/ui/List.module.css */
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  align-content: start;
+
+  overflow-y: auto;
+  flex-grow: 1;
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
+}
+
+.emptyMessage {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: #555;
+}

@@ -1,0 +1,29 @@
+/* src/components/ExamResultModal/ExamResultModal.module.css */
+.resultContainer {
+  padding: 0.5rem 0;
+  max-height: 400px; /* Sætter en max-højde, så modalen ikke bliver for høj */
+  overflow-y: auto; /* Gør tabellen scrollbar, hvis der er mange studerende */
+}
+
+.resultTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.resultTable th,
+.resultTable td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.resultTable th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  position: sticky; /* Låser tabel-headeren fast under scroll */
+  top: 0;
+}
+
+.resultTable tbody tr:last-child td {
+  border-bottom: none;
+}

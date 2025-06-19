@@ -1,0 +1,34 @@
+/* src/components/StudentListModal/StudentListModal.module.css */
+
+.studentListContainer {
+  padding: 0.5rem 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.studentList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.studentItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.studentItem:last-child {
+  border-bottom: none;
+}
+
+.studentName {
+  font-weight: 600;
+}
+
+.studentNo {
+  color: #555;
+  font-size: 0.9rem;
+}
